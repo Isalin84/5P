@@ -119,11 +119,34 @@
       h1 { font-size: 1.6rem; }
       h2 { font-size: 1.1rem; }
     }
+    /* ---------- Поле заметок ---------- */
+    .notes-label {
+      display: block;
+      margin: 0.4rem 0 0.3rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    textarea.notes {
+      width: 100%;
+      min-height: 90px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      background-color: var(--card-bg);
+      color: var(--text);
+    }
+    .mobile-break { display: inline; }
+    @media (max-width: 480px) {
+      .mobile-break { display: block; }
+    }
   </style>
 </head>
 <body>
   <main class="checklist-container" aria-labelledby="title">
-    <h1 id="title">Чек‑лист «Стратегическая суббота»</h1>
+    <h1 id="title">Чек‑лист «Стратегическая <span class="mobile-break">суббота</span>»</h1>
 
     <!-- Прогресс‑бар -->
     <div class="progress-wrapper" aria-hidden="true">
@@ -139,6 +162,8 @@
         <li><input type="checkbox" data-id="pride-2" />Зафиксировать, какие действия двигали к целям</li>
         <li><input type="checkbox" data-id="pride-3" />Отметить моменты гордости и удовлетворения</li>
       </ul>
+      <label for="notes-pride" class="notes-label">Записи</label>
+      <textarea id="notes-pride" class="notes" data-id="notes-pride" placeholder="Ваши заметки…"></textarea>
     </section>
 
     <section>
@@ -148,6 +173,8 @@
         <li><input type="checkbox" data-id="thanks-2" />Записать неожиданные подарки судьбы</li>
         <li><input type="checkbox" data-id="thanks-3" />Отметить, что продвинуло вас продуктивно</li>
       </ul>
+      <label for="notes-thanks" class="notes-label">Записи</label>
+      <textarea id="notes-thanks" class="notes" data-id="notes-thanks" placeholder="Ваши заметки…"></textarea>
     </section>
 
     <section>
@@ -157,6 +184,8 @@
         <li><input type="checkbox" data-id="complain-2" />Зафиксировать «узкие места» и сложности</li>
         <li><input type="checkbox" data-id="complain-3" />Проанализировать, что мешает двигаться вперёд</li>
       </ul>
+      <label for="notes-complain" class="notes-label">Записи</label>
+      <textarea id="notes-complain" class="notes" data-id="notes-complain" placeholder="Ваши заметки…"></textarea>
     </section>
 
     <section>
@@ -166,6 +195,8 @@
         <li><input type="checkbox" data-id="dream-2" />Записать мысли о будущем (1–10 лет)</li>
         <li><input type="checkbox" data-id="dream-3" />Уточнить или дополнить предыдущие мечты</li>
       </ul>
+      <label for="notes-dream" class="notes-label">Записи</label>
+      <textarea id="notes-dream" class="notes" data-id="notes-dream" placeholder="Ваши заметки…"></textarea>
     </section>
 
     <section>
@@ -175,6 +206,8 @@
         <li><input type="checkbox" data-id="promise-2" />Записать конкретное обещание себе</li>
         <li><input type="checkbox" data-id="promise-3" />Проверить, даст ли выполнение чувство гордости</li>
       </ul>
+      <label for="notes-promise" class="notes-label">Записи</label>
+      <textarea id="notes-promise" class="notes" data-id="notes-promise" placeholder="Ваши заметки…"></textarea>
     </section>
 
     <!-- Кнопки действий -->
@@ -226,9 +259,24 @@
     });
     updateProgress();
 
+    // ---------- Заметки ----------
+    const noteFields = Array.from(document.querySelectorAll('textarea.notes'));
+    noteFields.forEach(tf => {
+      const id = tf.dataset.id;
+      tf.value = state[id] || '';
+      tf.addEventListener('input', () => {
+        state[id] = tf.value;
+        saveState(state);
+      });
+    });
+
     // ---------- Кнопки действий ----------
     document.getElementById("resetBtn").addEventListener("click", () => {
       checkboxes.forEach(cb => (cb.checked = false));
+      noteFields.forEach(tf => {
+        tf.value = '';
+        state[tf.dataset.id] = '';
+      });
       Object.keys(state).forEach(k => (state[k] = false));
       saveState(state);
       updateProgress();
