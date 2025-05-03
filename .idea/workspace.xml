@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e574481-61c0-4de0-b914-d31d87f2f7a4" name="Changes" comment="5P">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="3e574481-61c0-4de0-b914-d31d87f2f7a4" name="Changes" comment="Comments section">
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -80,7 +78,7 @@
       <updated>1746255902328</updated>
       <workItem from="1746255903736" duration="49000" />
       <workItem from="1746255963132" duration="1941000" />
-      <workItem from="1746259275960" duration="622000" />
+      <workItem from="1746259275960" duration="1382000" />
     </task>
     <task id="LOCAL-00001" summary="7P">
       <option name="closed" value="true" />
@@ -106,7 +104,23 @@
       <option name="project" value="LOCAL" />
       <updated>1746258568330</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Comments section">
+      <option name="closed" value="true" />
+      <created>1746259922977</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1746259922977</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Comments section">
+      <option name="closed" value="true" />
+      <created>1746260057075</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1746260057075</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -115,6 +129,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="7P" />
     <MESSAGE value="5P" />
-    <option name="LAST_COMMIT_MESSAGE" value="5P" />
+    <MESSAGE value="Comments section" />
+    <option name="LAST_COMMIT_MESSAGE" value="Comments section" />
   </component>
 </project>
