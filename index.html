@@ -113,6 +113,16 @@
     }
     .btn:hover { opacity: 0.85; }
 
+    /* ---------- Email input ---------- */
+    .email-input {
+      padding: 0.5rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      flex: 1 1 180px;
+      min-width: 180px;
+    }
+
     /* ---------- Мобильная адаптивность ---------- */
     @media (max-width: 480px) {
       .checklist-container { padding: 1.5rem 1.2rem; }
@@ -212,6 +222,8 @@
 
     <!-- Кнопки действий -->
     <div class="actions">
+      <input type="email" id="emailInput" class="email-input" placeholder="Введите email" aria-label="Email для отправки" />
+      <button class="btn" id="sendBtn" aria-label="Отправить чек‑лист на email">Отправить</button>
       <button class="btn" id="resetBtn" aria-label="Сбросить отметки чек‑листа">Сбросить</button>
       <button class="btn" id="printBtn" aria-label="Распечатать или сохранить в PDF">Печать / PDF</button>
     </div>
@@ -280,6 +292,41 @@
       Object.keys(state).forEach(k => (state[k] = false));
       saveState(state);
       updateProgress();
+    });
+
+    // ---------- Отправка на email ----------
+    document.getElementById('sendBtn').addEventListener('click', () => {
+      const email = document.getElementById('emailInput').value.trim();
+      if (!email) {
+        alert('Введите email для отправки.');
+        return;
+      }
+
+      const sections = Array.from(document.querySelectorAll('section'));
+      const lines = [];
+      lines.push('Чек‑лист «Стратегическая суббота»');
+      lines.push(`Заполнено: ${progressText.textContent}`);
+
+      sections.forEach(sec => {
+        const title = sec.querySelector('h2').textContent;
+        lines.push('');
+        lines.push(title);
+        sec.querySelectorAll('li').forEach(li => {
+          const cb = li.querySelector('input');
+          const text = li.textContent.trim();
+          lines.push(`${cb.checked ? '✅' : '⬜'} ${text}`);
+        });
+        const noteArea = sec.querySelector('textarea');
+        if (noteArea && noteArea.value.trim()) {
+          lines.push('Заметки: ' + noteArea.value.trim());
+        }
+      });
+
+      const mailtoLink =
+        `mailto:${encodeURIComponent(email)}?subject=` +
+        encodeURIComponent('Чек‑лист Стратегическая суббота') +
+        '&body=' + encodeURIComponent(lines.join('\n'));
+      window.location.href = mailtoLink;
     });
 
     document.getElementById("printBtn").addEventListener("click", () => {
