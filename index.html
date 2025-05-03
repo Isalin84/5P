@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Чек‑лист: Стратегическая суббота</title>
+  <style>
+    /* ---------- CSS‑переменные для темной и светлой темы ---------- */
+    :root {
+      --bg: #f2f4f7;
+      --card-bg: #ffffff;
+      --text: #333333;
+      --accent: #1a73e8;
+      --muted: #666666;
+      --border: rgba(0, 0, 0, 0.08);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1e1e1e;
+        --card-bg: #2b2b2b;
+        --text: #e5e5e5;
+        --accent: #4c8dff;
+        --muted: #aaaaaa;
+        --border: rgba(255, 255, 255, 0.1);
+      }
+    }
+    /* ---------- Базовая типографика и layout ---------- */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 2rem 1rem;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+    }
+    .checklist-container {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 2rem 2.5rem;
+      max-width: 640px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.9rem;
+      margin: 0 0 1.2rem;
+    }
+    h2 {
+      font-size: 1.25rem;
+      color: var(--accent);
+      margin: 1.8rem 0 0.6rem;
+    }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 0.6rem;
+      line-height: 1.35;
+    }
+    input[type="checkbox"] {
+      accent-color: var(--accent);
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    /* ---------- Прогресс‑бар ---------- */
+    .progress-wrapper {
+      position: relative;
+      height: 12px;
+      background-color: var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 1.2rem;
+    }
+    .progress-bar {
+      height: 100%;
+      background-color: var(--accent);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    .progress-text {
+      text-align: right;
+      margin: 0.3rem 0 0.8rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    /* ---------- Кнопки действий ---------- */
+    .actions {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--accent);
+      color: #fff;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+    .btn:hover { opacity: 0.85; }
+
+    /* ---------- Мобильная адаптивность ---------- */
+    @media (max-width: 480px) {
+      .checklist-container { padding: 1.5rem 1.2rem; }
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="checklist-container" aria-labelledby="title">
+    <h1 id="title">Чек‑лист «Стратегическая суббота»</h1>
+
+    <!-- Прогресс‑бар -->
+    <div class="progress-wrapper" aria-hidden="true">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="progress-text" id="progressText" aria-live="polite">0 / 0 выполнено</div>
+
+    <!-- 5‑шаговая структура -->
+    <section>
+      <h2>1. Похвастаться</h2>
+      <ul>
+        <li><input type="checkbox" data-id="pride-1" />Выделить 2–3 ключевые победы прошлой недели</li>
+        <li><input type="checkbox" data-id="pride-2" />Зафиксировать, какие действия двигали к целям</li>
+        <li><input type="checkbox" data-id="pride-3" />Отметить моменты гордости и удовлетворения</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>2. Поблагодарить</h2>
+      <ul>
+        <li><input type="checkbox" data-id="thanks-1" />Определить людей и события, которым вы благодарны</li>
+        <li><input type="checkbox" data-id="thanks-2" />Записать неожиданные подарки судьбы</li>
+        <li><input type="checkbox" data-id="thanks-3" />Отметить, что продвинуло вас продуктивно</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. Пожаловаться</h2>
+      <ul>
+        <li><input type="checkbox" data-id="complain-1" />Выявить 2–3 основные точки напряжения</li>
+        <li><input type="checkbox" data-id="complain-2" />Зафиксировать «узкие места» и сложности</li>
+        <li><input type="checkbox" data-id="complain-3" />Проанализировать, что мешает двигаться вперёд</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>4. Помечтать</h2>
+      <ul>
+        <li><input type="checkbox" data-id="dream-1" />Потратить 5–10 минут на мозговой штурм идей</li>
+        <li><input type="checkbox" data-id="dream-2" />Записать мысли о будущем (1–10 лет)</li>
+        <li><input type="checkbox" data-id="dream-3" />Уточнить или дополнить предыдущие мечты</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>5. Пообещать</h2>
+      <ul>
+        <li><input type="checkbox" data-id="promise-1" />Определить 1–2 сдвиговых действия на следующую неделю</li>
+        <li><input type="checkbox" data-id="promise-2" />Записать конкретное обещание себе</li>
+        <li><input type="checkbox" data-id="promise-3" />Проверить, даст ли выполнение чувство гордости</li>
+      </ul>
+    </section>
+
+    <!-- Кнопки действий -->
+    <div class="actions">
+      <button class="btn" id="resetBtn" aria-label="Сбросить отметки чек‑листа">Сбросить</button>
+      <button class="btn" id="printBtn" aria-label="Распечатать или сохранить в PDF">Печать / PDF</button>
+    </div>
+  </main>
+
+  <script>
+    // ---------- Утилиты ----------
+    const STORAGE_KEY = "strategic-saturday-state";
+
+    function loadState() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      } catch (e) {
+        return {};
+      }
+    }
+    function saveState(state) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    // ---------- Основная логика ----------
+    const state = loadState();
+    const checkboxes = Array.from(document.querySelectorAll("input[type='checkbox']"));
+    const progressBar = document.getElementById("progressBar");
+    const progressText = document.getElementById("progressText");
+
+    function updateProgress() {
+      const total = checkboxes.length;
+      const completed = checkboxes.filter(cb => cb.checked).length;
+      const percent = Math.round((completed / total) * 100);
+      progressBar.style.width = `${percent}%`;
+      progressBar.setAttribute("aria-valuenow", percent);
+      progressText.textContent = `${completed} / ${total} выполнено`;
+    }
+
+    // Инициализация чекбоксов из localStorage
+    checkboxes.forEach(cb => {
+      const id = cb.dataset.id;
+      cb.checked = !!state[id];
+      cb.addEventListener("change", () => {
+        state[id] = cb.checked;
+        saveState(state);
+        updateProgress();
+      });
+    });
+    updateProgress();
+
+    // ---------- Кнопки действий ----------
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      checkboxes.forEach(cb => (cb.checked = false));
+      Object.keys(state).forEach(k => (state[k] = false));
+      saveState(state);
+      updateProgress();
+    });
+
+    document.getElementById("printBtn").addEventListener("click", () => {
+      window.print();
+    });
+  </script>
+</body>
+</html>
