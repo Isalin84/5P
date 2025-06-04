@@ -195,14 +195,14 @@
     <div class="progress-wrapper" aria-hidden="true">
       <div class="progress-bar" id="progressBar"></div>
     </div>
-    <div class="progress-text" id="progressText" aria-live="polite">0 / 0 выполнено</div>
+    <div class="progress-text" id="progressText" aria-live="polite">0 / 0 выполнено (0%)</div>
 
     <!-- 5‑шаговая структура -->
     <section>
       <h2>1. Похвастаться</h2>
       <ul>
         <li><input type="checkbox" data-id="pride-1" />Выделить 2–3 ключевые победы прошлой недели</li>
-        <li><input type="checkbox" data-id="pride-2" />Зафиксировать, какие действия двигали к целям</li>
+        <li><input type="checkbox" data-id="pride-2" />Отметить, какие действия приближали к целям</li>
         <li><input type="checkbox" data-id="pride-3" />Отметить моменты гордости и удовлетворения</li>
       </ul>
       <label for="notes-pride" class="notes-label">Записи</label>
@@ -214,7 +214,7 @@
       <ul>
         <li><input type="checkbox" data-id="thanks-1" />Определить людей и события, которым вы благодарны</li>
         <li><input type="checkbox" data-id="thanks-2" />Записать неожиданные подарки судьбы</li>
-        <li><input type="checkbox" data-id="thanks-3" />Отметить, что продвинуло вас продуктивно</li>
+        <li><input type="checkbox" data-id="thanks-3" />Выписать, что способствовало продуктивности</li>
       </ul>
       <label for="notes-thanks" class="notes-label">Записи</label>
       <textarea id="notes-thanks" class="notes" data-id="notes-thanks" placeholder="Ваши заметки…"></textarea>
@@ -223,7 +223,7 @@
     <section>
       <h2>3. Пожаловаться</h2>
       <ul>
-        <li><input type="checkbox" data-id="complain-1" />Выявить 2–3 основные точки напряжения</li>
+        <li><input type="checkbox" data-id="complain-1" />Выявить 2–3 ключевые точки напряжения</li>
         <li><input type="checkbox" data-id="complain-2" />Зафиксировать «узкие места» и сложности</li>
         <li><input type="checkbox" data-id="complain-3" />Проанализировать, что мешает двигаться вперёд</li>
       </ul>
@@ -245,7 +245,7 @@
     <section>
       <h2>5. Пообещать</h2>
       <ul>
-        <li><input type="checkbox" data-id="promise-1" />Определить 1–2 сдвиговых действия на следующую неделю</li>
+        <li><input type="checkbox" data-id="promise-1" />Определить 1–2 ключевых действия на следующую неделю</li>
         <li><input type="checkbox" data-id="promise-2" />Записать конкретное обещание себе</li>
         <li><input type="checkbox" data-id="promise-3" />Проверить, даст ли выполнение чувство гордости</li>
       </ul>
@@ -258,6 +258,7 @@
       <input type="email" id="emailInput" class="email-input" placeholder="Введите email" aria-label="Email для отправки" />
       <button class="btn" id="sendBtn" aria-label="Отправить чек‑лист на email">Отправить</button>
       <button class="btn" id="resetBtn" aria-label="Сбросить отметки чек‑листа">Сбросить</button>
+      <button class="btn" id="copyBtn" aria-label="Скопировать результаты в буфер">Копировать</button>
       <button class="btn" id="printBtn" aria-label="Распечатать или сохранить в PDF">Печать / PDF</button>
     </div>
   </main>
@@ -289,7 +290,7 @@
       const percent = Math.round((completed / total) * 100);
       progressBar.style.width = `${percent}%`;
       progressBar.setAttribute("aria-valuenow", percent);
-      progressText.textContent = `${completed} / ${total} выполнено`;
+      progressText.textContent = `${completed} / ${total} выполнено (${percent}%)`;
     }
 
     // Инициализация чекбоксов из localStorage
@@ -327,14 +328,7 @@
       updateProgress();
     });
 
-    // ---------- Отправка на email ----------
-    document.getElementById('sendBtn').addEventListener('click', () => {
-      const email = document.getElementById('emailInput').value.trim();
-      if (!email) {
-        alert('Введите email для отправки.');
-        return;
-      }
-
+    function buildOutputLines() {
       const sections = Array.from(document.querySelectorAll('section'));
       const lines = [];
       lines.push('Чек‑лист «Стратегическая суббота»');
@@ -354,12 +348,33 @@
           lines.push('Заметки: ' + noteArea.value.trim());
         }
       });
+      return lines;
+    }
+
+    // ---------- Отправка на email ----------
+    document.getElementById('sendBtn').addEventListener('click', () => {
+      const email = document.getElementById('emailInput').value.trim();
+      if (!email) {
+        alert('Введите email для отправки.');
+        return;
+      }
+
+      const lines = buildOutputLines();
 
       const mailtoLink =
         `mailto:${encodeURIComponent(email)}?subject=` +
         encodeURIComponent('Чек‑лист «Стратегическая суббота»') +
         '&body=' + encodeURIComponent(lines.join('\n'));
       window.location.href = mailtoLink;
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      const lines = buildOutputLines();
+      try {
+        await navigator.clipboard.writeText(lines.join('\n'));
+      } catch (err) {
+        alert('Не удалось скопировать текст');
+      }
     });
 
     document.getElementById("printBtn").addEventListener("click", () => {
