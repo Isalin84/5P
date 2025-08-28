@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +8,7 @@
     суббота</title>
   <style>
     /* ---------- CSS‑переменные для темной и светлой темы ---------- */
-    :root {
+    [data-theme="light"] {
       --bg: #f2f4f7;
       --card-bg: #ffffff;
       --text: #333333;
@@ -16,15 +16,13 @@
       --muted: #666666;
       --border: rgba(0, 0, 0, 0.08);
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #1e1e1e;
-        --card-bg: #2b2b2b;
-        --text: #e5e5e5;
-        --accent: #4c8dff;
-        --muted: #aaaaaa;
-        --border: rgba(255, 255, 255, 0.1);
-      }
+    [data-theme="dark"] {
+      --bg: #1e1e1e;
+      --card-bg: #2b2b2b;
+      --text: #e5e5e5;
+      --accent: #4c8dff;
+      --muted: #aaaaaa;
+      --border: rgba(255, 255, 255, 0.1);
     }
     /* ---------- Базовая типографика и layout ---------- */
     * { box-sizing: border-box; }
@@ -189,6 +187,7 @@
         <span>«Стратегическая</span>
         <span>суббота»</span>
       </h1>
+      <button id="themeToggle" class="btn" type="button">Сменить тему</button>
     </div> <!-- END header -->
 
     <!-- Прогресс‑бар -->
@@ -266,6 +265,15 @@
   <script>
     // ---------- Утилиты ----------
     const STORAGE_KEY = "strategic-saturday-state";
+    const THEME_KEY = "strategic-saturday-theme";
+    const root = document.documentElement;
+    const savedTheme = localStorage.getItem(THEME_KEY) || "light";
+    root.setAttribute("data-theme", savedTheme);
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      const newTheme = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+      root.setAttribute("data-theme", newTheme);
+      localStorage.setItem(THEME_KEY, newTheme);
+    });
 
     function loadState() {
       try {
